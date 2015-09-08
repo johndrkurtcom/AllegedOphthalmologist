@@ -2,13 +2,14 @@ var request = require('request');
 var TOKENS = require('./../config/tokenConfig.js');
 
 // API Authorization Token provided by UtilityAPI:
-var authHeader = TOKENS.utilityAPIToken;
+var authHeader = TOKENS/*.utilityAPIToken*/;
 
 var makeRequest = function(options, cb){
   request(options, function(err, response, body){
     if(err){
       throw err;
     }
+    console.log('authHeader ',authHeader, process.env.utilityAPIToken);
     cb(JSON.parse(body));
   });
 };

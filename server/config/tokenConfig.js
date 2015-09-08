@@ -7,5 +7,6 @@ else{
     wattTimeAPIToken: process.env.wattTimeAPIToken
   }
 }
+console.log('tokens ', tokens);
 
 module.exports = tokens;

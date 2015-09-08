@@ -48,6 +48,7 @@ var init = function(){
  * auth_name. This change is reflected both on UtilityAPI and in our database. 
  */
 var changePGEData = function(req, res){
+  console.log('hello change is called');
   var reqObj = { 
     auth_type: null,
     real_name: req.body.pgeFullName, 
