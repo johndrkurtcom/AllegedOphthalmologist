@@ -21,7 +21,7 @@ const karmaConfig = function (config) {
     port: 9876,
     colors: true,
     autoWatch: false,
-    browsers: ["FireFox", "Chrome"],
+    browsers: ["FireFox"/*, "Chrome"*/],
     singleRun: true,
 
     files: ["tests.webpack.js"],
