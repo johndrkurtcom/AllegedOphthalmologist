@@ -21,7 +21,7 @@ const karmaConfig = function (config) {
     port: 9876,
     colors: true,
     autoWatch: false,
-    browsers: ["Chrome"],
+    browsers: ["FireFox", "Chrome"],
     singleRun: true,
 
     files: ["tests.webpack.js"],
@@ -34,6 +34,7 @@ const karmaConfig = function (config) {
       require("karma-spec-reporter"),
       require("karma-webpack"),
       require("karma-chrome-launcher"),
+      require("karma-firefox-launcher"),
     ]
   });
 };
