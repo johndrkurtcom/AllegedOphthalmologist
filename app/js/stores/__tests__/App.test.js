@@ -6,7 +6,7 @@ var TestUtils = require('react/lib/ReactTestUtils');
 var rewire = require('rewire');
 
 // var AppView = rewire('../../app.jsx');
-var dialogWindow = rewire('../../components/dialogWindow.jsx')
+var dialogWindow = rewire('../../components/dialogWindow.jsx');
 var NavMenu = rewire('../../components/NavMenu.jsx');
 var MainView = rewire('../../components/MainView.jsx');
 var LoginView = rewire('../../components/LoginView.jsx');

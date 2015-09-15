@@ -164,7 +164,7 @@ var processData = function(data){
     if(type === "Renewable"){ 
       type = "Other Renewables";
     } else if (type === "Other"){ 
-      type = "Non-Renewables"
+      type = "Non-Renewables";
     }
     var percentage = Math.round((element.gen_MW / totalMW)*100, 2);
     breakDown.push({type: type, percentage: percentage});

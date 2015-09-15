@@ -1,4 +1,4 @@
-const rewire = require("rewire");
+var rewire = require("rewire");
 
 var MenuItemStore = rewire('../MenuItemStore');
 
@@ -41,7 +41,7 @@ describe("MenuItemStore", function () {
     var initItems = MenuItemStore.getActiveItems();
     initItems.forEach(function(item, index){
       MenuItemStore.toggleDisplay(item);
-    })
+    });
     var toggledItems = MenuItemStore.getActiveItems();
     expect(toggledItems.length).not.toEqual(initItems.length);
     done();

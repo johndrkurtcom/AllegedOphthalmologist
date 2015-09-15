@@ -13,7 +13,7 @@ var webpackConfig = {
 };
 
 
-const karmaConfig = function (config) {
+var karmaConfig = function (config) {
   config.set({
     basePath: "",
     frameworks: ["jasmine"],

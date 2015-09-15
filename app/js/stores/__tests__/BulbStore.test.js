@@ -1,4 +1,4 @@
-const rewire = require("rewire");
+var rewire = require("rewire");
 
 var BulbStore = rewire('../BulbStore');
 
