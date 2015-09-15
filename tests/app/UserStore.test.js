@@ -1,4 +1,4 @@
-const rewire = require("rewire");
+var rewire = require("rewire");
 
 var UserStore = rewire('../../app/js/stores/UserStore');
 
@@ -29,7 +29,7 @@ describe("UserStore", function () {
       service_uid : 1425,
       utility_service_address : '1234 lane',
       token : 21354,
-    }
+    };
     UserStore.setUser(data);
 
     expect(UserStore.getUsername()).toBe('bill');
@@ -56,7 +56,7 @@ describe("UserStore", function () {
       service_uid : 1425,
       utility_service_address : '1234 lane',
       token : 21354,
-    }
+    };
     UserStore.setUser(data);
     expect(UserStore.getUsername()).toBe('bill');
 
