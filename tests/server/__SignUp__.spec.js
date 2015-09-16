@@ -43,30 +43,35 @@ describe('Sign Up functionality tests', function(){
       utility_password: '1234',
       pgeFullName: 'John Doe',
     }
-    // signUp(data, function(response, body){
-      checkMock = function(req, res, cb){
-        console.log('success!');
-      }
-      var mockUser = {
-        findOne: function(obj){
-          return {user: 'found'}
-        }
-      }
-      var resMock = {
-        send: function(){}
-      }
-      console.log(userController);
-      userController.__set__('checkUsernameAvail', checkMock);
-      userController.__set__('User', mockUser);
-      
-      console.log(userController.__get__('checkUsernameAvail'))
-      spyOn(mockUser, 'findOne');
-      
-      userController.signUp({body: data}, resMock);
 
-      // expect(userController.checkUsernameAvail).toHaveBeenCalled();
-      expect(mockUser.findOne).toHaveBeenCalled();
-      done();
+    var checkMock = {
+      check: function(req, res, cb){
+        console.log('we have called the success!');
+        return 418;
+      }
+    }
+    // var mockUser = {
+    //   return 
+    // }
+    var resMock = {
+      send: function(){}
+    }
+
+    console.log(userController);
+
+    userController.__set__('checkUsernameAvail', checkMock.check);
+    // userController.__set__('User', mockUser);
+    
+    // console.log(userController.__get__('User'))
+
+    spyOn(checkMock, 'check');
+    
+    // resMock.send();    
+    userController.signUp({body: data}, resMock);
+
+    // expect(userController.checkUsernameAvail).toHaveBeenCalled();
+    expect(checkMock.check).toHaveBeenCalled();
+    done();
     
   });
 
