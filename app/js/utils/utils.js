@@ -10,7 +10,6 @@ var setAuthHeader = function(){
 };
 
 var PostReq = function(route, data){ 
-  console.log("Sending POST to " + route + " with " + data);
   setAuthHeader();
   return new Promise(function(resolve, reject) {
     $.ajax({
@@ -25,20 +24,9 @@ var PostReq = function(route, data){
         reject(err);
       }
     });
-
-    // FOR DEBUGGING WITHOUT BACKEND:
-    // var response = {
-    //   username: "johndoe",
-    //   uid: 14591
-    // };
-    // return new Promise(function(resolve, reject) {
-    //   if(false) resolve(response);
-    //   if(true) reject('err');
-    // });
   });
 };
 var GetReq = function(route){
-  // console.log("Sending GET to " + route);
   setAuthHeader();  
   return new Promise(function(resolve, reject) {
     $.ajax({
@@ -46,24 +34,13 @@ var GetReq = function(route){
       method: 'GET',
       dataType: 'json',
       success: function(data) {
-        // console.log('succuss in ajax');
         resolve(data);
       },
       error: function(xhr, status, err) {
-        // console.log('error in ajax', status, err, xhr)
         reject(err);
       }
     });
   });
-  // FOR DEBUGGING WITHOUT BACKEND:
-  // var response = {
-  //   username: "johndoe",
-  //   uid: 14591
-  // };
-  // return new Promise(function(resolve, reject) {
-  //   if(false) resolve(response);
-  //   if(true) reject('err');
-  // });
 };
 
 module.exports = {
@@ -95,10 +72,6 @@ module.exports = {
 
   updateUserPGE: function(update_data){
     return PostReq(routes.PGE_UPDATE, update_data);
-    // return new Promise(function(resolve, reject) {
-    //   if(false) resolve(update_data);
-    //   if(true) reject('err');
-    // });
   },
 
   loginUser: function(data) {
