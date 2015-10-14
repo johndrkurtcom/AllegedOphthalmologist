@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-
+  
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
@@ -45,7 +45,8 @@ module.exports = function(grunt) {
       },
       images: {
         files: [
-          {expand: true, flatten: true, src: './app/assets/*.jpg', dest: './build/images'}
+          {expand: true, flatten: true, src: './app/assets/*.jpg', dest: './build/images'}, 
+          {expand: true, flatten: true, src: './app/assets/*.png', dest: './build/images'}
         ]
       }
     },
@@ -74,6 +75,8 @@ module.exports = function(grunt) {
         forceExit: true,
         extentions: 'js',
         includeStackTrace: true,
+        // isVerbose: false,
+        // captureExceptions: true,
       },
       all: ['./tests/']
     },
@@ -83,15 +86,6 @@ module.exports = function(grunt) {
         configFile: 'karma.conf.js',
       },
     },
-
-    // mochaTest: {
-    //   test: {
-    //     options: {
-    //       reporter: 'spec',
-    //     },
-    //     src: ['./tests/**/*.test.js'],
-    //   }
-    // },
 
     watch: {
       server: {
@@ -124,13 +118,19 @@ module.exports = function(grunt) {
           watch: ['server'],
           delay: 1000,
           callback: function(nodemon) {
-            nodemon.on('config:update', function() {
+            nodemon.on('start', function() {
 
               setTimeout(function() {
                 var jasmine = grunt.util.spawn({
                   cmd: 'grunt',
                   grunt: true,
                   args: 'jasmine_node',
+                }, function(err, result, code) {
+                  // This function needs to be here so that grunt.util has something to call after jasmine finishes
+                  // Removing this will cause a Fatal Error: undefined is not a function to be thrown.
+                  if (err) {
+                    throw new Error(err);
+                  }
                 });
 
                 jasmine.stdout.pipe(process.stdout);
@@ -142,14 +142,14 @@ module.exports = function(grunt) {
       }
     },
 
-    concurrent: {
-      target: {
-        tasks: ['startMongo', 'nodemon', 'jasmine_node'],
-        options: {
-          logConcurrentOutput: true,
-        }
-      }
-    }
+    // concurrent: {
+    //   target: {
+    //     tasks: ['startMongo', 'nodemon', 'jasmine_node'],
+    //     options: {
+    //       logConcurrentOutput: true,
+    //     }
+    //   }
+    // }
 
   });
 
@@ -164,16 +164,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-services');
   grunt.loadNpmTasks('grunt-jasmine-node-new');
+  // grunt.loadNpmTasks('grunt-jasmine-node-coverage');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-concurrent');
+  // grunt.loadNpmTasks('grunt-concurrent');
   // grunt.loadNpmTasks('grunt-mocha-test');
 
   grunt.registerTask('server-dev', function(target) {
+
     var nodemon = grunt.util.spawn({
       cmd: 'grunt',
       grunt: true,
       args: 'nodemon',
-      opts: {maxBuffer: 500*1024},
+    }, function(err, result, code) {
+      if (err) {
+        console.log(err);
+      }
+      grunt.task.run(['stopMongo']);
     });
 
     nodemon.stdout.pipe(process.stdout);
@@ -192,18 +198,18 @@ module.exports = function(grunt) {
     // jasmine.stderr.pipe(process.stderr);
   });
 
-  grunt.registerTask('jasmineSpawn', function(target) {
+  // grunt.registerTask('jasmineSpawn', function(target) {
 
-    var nodemon = grunt.util.spawn({
-      cmd: 'grunt',
-      grunt: true,
-      args: 'nodemon',
-      opts: {maxBuffer: 500*1024},
-    });
-    grunt.task.run(['startMongo']);
+  //   var nodemon = grunt.util.spawn({
+  //     cmd: 'grunt',
+  //     grunt: true,
+  //     args: 'nodemon',
+  //     opts: {maxBuffer: 500*1024},
+  //   });
+  //   grunt.task.run(['startMongo']);
 
-    grunt.task.run(['jasmine_node']);
-  });
+  //   grunt.task.run(['jasmine_node']);
+  // });
 
   // Helper Tasks ////////////////////////////////////////
 
@@ -221,9 +227,9 @@ module.exports = function(grunt) {
     'jshint',
   ]);
 
-  grunt.registerTask('jasmineTests', ['concurrent']);
+  // grunt.registerTask('jasmineTests', ['concurrent']);
 
-  grunt.registerTask('karmaTests', ['karma']);
+  // grunt.registerTask('karmaTests', ['karma']);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
@@ -238,7 +244,7 @@ module.exports = function(grunt) {
   // Grunt Tasks ////////////////////////////////////////
   grunt.registerTask('deploy', [
     'test',
-    'karmaTests',
+    'karma',
     'clean',
     'upload'
   ]);
